@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Usuario {
+  id         Int    @id @default(autoincrement())
+  nome       String
+  sobreNome  String
+  nascimento String
+  cpf        String @unique
+  telefone   String @unique
+  email      String @unique
+  senha      String
+  tipo       String
+  //disponibilidade Disponibilidade[]
+
+  @@map("usuarios")
+}
+
+model Disponibilidade {
+  id            Int      @id @default(autoincrement())
+  diaSemana     String
+  horaInicio    String
+  horaFim       String
+ // usuarioId     Int
+  //usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model Dica {
+  id        Int      @id @default(autoincrement())
+  topico    String
+  conteudo  String
+  createdAt DateTime @default(now())
+
+  @@map("dicas") // Opcional: Mapeia para o nome da tabela no banco de dados
+}
